@@ -347,3 +347,18 @@ spanning-tree vlan 60 root secondary
 spanning-tree vlan 80 root secondary
 spanning-tree vlan 100 root secondary
 spanning-tree vlan 200 root secondary
+
+! Interfaces to ASA firewalls
+interface GigabitEthernet1/0/23
+no switchport
+ip address 10.80.254.2 255.255.255.248
+description To ASA-DROITE
+
+interface GigabitEthernet1/0/24
+no switchport
+ip address 10.80.254.10 255.255.255.248
+description To ASA-GAUCHE
+ 
+! Routes to ASA firewalls
+ip route 0.0.0.0 0.0.0.0 10.80.254.3 
+ip route 0.0.0.0 0.0.0.0 10.80.254.11 5
