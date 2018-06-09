@@ -1,12 +1,12 @@
 no ip domain-lookup
-hostname PARIS-S-SERV
+hostname PARIS-SW-SRV
 
 vtp mode client
 vtp domain URSS.ru
 vtp password Tigrou007
 
 
-int range gig6/1,gig7/1
+int range gig0/1,gig1/1
 channel-group 1 mode on
 
 interface port-channel 1
@@ -14,7 +14,7 @@ switchport mode trunk
 switchport trunk allowed vlan 10,200
 switchport trunk native vlan 99
 
-int range gig8/1,gig9/1
+int range gig2/1,gig3/1
 channel-group 2 mode on
 
 interface port-channel 2
@@ -22,7 +22,7 @@ switchport mode trunk
 switchport trunk allowed vlan 10,200
 switchport trunk native vlan 99
 
-int gig0/1
+int range gig4/1,gig5/1,gig6/1,gig7/1,gig8/1,gig9/1
 switchport mode access
 switchport access vlan 200
 spanning-tree portfast
