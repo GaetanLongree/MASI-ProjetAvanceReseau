@@ -1,0 +1,29 @@
+no ip domain-lookup
+hostname PARIS-S-SERV
+
+vtp mode client
+vtp domain URSS.ru
+vtp password Tigrou007
+
+
+int range gig6/1,gig7/1
+channel-group 1 mode on
+
+interface port-channel 1
+switchport mode trunk
+switchport trunk allowed vlan 10,200
+switchport trunk native vlan 99
+
+int range gig8/1,gig9/1
+channel-group 2 mode on
+
+interface port-channel 2
+switchport mode trunk
+switchport trunk allowed vlan 10,200
+switchport trunk native vlan 99
+
+int gig0/1
+switchport mode access
+switchport access vlan 200
+spanning-tree portfast
+spanning-tree bpduguard enable

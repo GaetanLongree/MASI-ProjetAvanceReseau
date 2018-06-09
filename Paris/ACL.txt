@@ -1,0 +1,183 @@
+
+
+###### Non reflexive ACL ######
+
+ip access-list extended VOIP-IN
+permit udp any any eq 67
+remark permit contacting DHCP server
+permit udp any host 10.80.200.11 eq 53
+remark permit contacting DNS server
+permit ip 10.80.100.0 0.0.0.255 10.80.10.0 0.0.0.255
+remark Permit return traffic to Administration
+deny ip any 10.80.0.0 0.0.255.255
+remark Deny contacting any other internal VLAN
+permit ip any any
+remark Permit traffic to Internet
+
+ip access-list extended ADMINISTRATION-IN
+permit udp any any eq 67
+remark permit contacting DHCP server
+permit udp any host 10.80.200.11 eq 53
+remark permit contacting DNS server
+permit ip 10.80.10.0 0.0.0.255 10.80.0.0 0.0.255.255
+remark Administration traffic can access all networks
+permit ip any any
+remark Permit traffic to Internet
+
+ip access-list extended DIRECTION-IN
+permit udp any any eq 67
+remark permit contacting DHCP server
+permit udp any host 10.80.200.11 eq 53
+remark permit contacting DNS server
+permit ip 10.80.20.0 0.0.0.255 1.10.0 0.0.0.255
+remark Permit return traffic to Administration
+permit ip 192.168.20.0 0.0.0.255 host 10.80.200.13
+remark Permit contact to File Server in VLAN Serveurs
+permit ip 10.80.20.0 0.0.0.255 10.80.30.0 0.0.0.255
+remark Permit Direction to access files in RH
+permit ip 10.80.20.0 0.0.0.255 10.80.40.0 0.0.0.255
+remark Permit Direction to access files in COMMERCIAUX
+permit ip 10.80.20.0 0.0.0.255 10.80.50.0 0.0.0.255
+remark Permit Direction to access files in SAP
+permit ip 10.80.20.0 0.0.0.255 10.80.60.0 0.0.0.255
+remark Permit Direction to access files in ARTISTES
+permit ip 10.80.20.0 0.0.0.255 10.80.70.0 0.0.0.255
+remark Permit Direction to access files in INGENIEURS
+permit ip 10.80.20.0 0.0.0.255 10.80.80.0 0.0.0.255
+remark Permit Direction to access files in MONTEURS
+permit ip 10.80.20.0 0.0.0.255 10.80.90.0 0.0.0.255
+remark Permit Direction to access files in EXPERTS
+deny ip any 10.80.0.0 0.0.255.255
+remark Deny contacting any other internal VLAN
+permit ip any any
+remark Permit traffic to Internet
+
+ip access-list extended RH-IN
+permit udp any any eq 67
+remark permit contacting DHCP server
+permit udp any host 10.80.200.11 eq 53
+remark permit contacting DNS server
+permit ip 10.80.30.0 0.0.0.255 10.80.10.0 0.0.0.255
+remark Permit return traffic to Administration
+permit ip 10.80.30.0 0.0.0.255 host 10.80.200.13
+remark Permit contact to File Server in VLAN Serveurs
+deny ip any 192.168.0.0 0.0.255.255
+remark Deny contacting any other internal VLAN
+permit ip any any
+remark Permit traffic to Internet
+
+ip access-list extended COMMERCIAUX-IN
+permit udp any any eq 67
+remark permit contacting DHCP server
+permit udp any host 10.80.200.11 eq 53
+remark permit contacting DNS server
+permit ip 10.80.40.0 0.0.0.255 10.80.10.0 0.0.0.255
+remark Permit return traffic to Administration
+permit ip 10.80.40.0 0.0.0.255 10.80.20.0 0.0.0.255
+remark Permit return traffic to Direction for file access
+permit ip 10.80.40.0 0.0.0.255 host 10.80.200.13
+remark Permit contact to File Server in VLAN Serveurs
+deny ip any 10.80.0.0 0.0.255.255
+remark Deny contacting any other internal VLAN
+permit ip any any
+remark Permit traffic to Internet
+
+ip access-list extended SAP-IN
+permit udp any any eq 67
+remark permit contacting DHCP server
+permit udp any host 10.80.200.11 eq 53
+remark permit contacting DNS server
+permit ip 10.80.50.0 0.0.0.255 10.80.10.0 0.0.0.255
+remark Permit return traffic to Administration
+permit ip 10.80.50.0 0.0.0.255 10.80.20.0 0.0.0.255
+remark Permit return traffic to Direction for file access
+permit ip 10.80.50.0 0.0.0.255 host 10.80.200.13
+remark Permit contact to File Server in VLAN Serveurs
+deny ip any 10.80.0.0 0.0.255.255
+remark Deny contacting any other internal VLAN
+permit ip any any
+remark Permit traffic to Internet
+
+ip access-list extended ARTISTES-IN
+permit udp any any eq 67
+remark permit contacting DHCP server
+permit udp any host 10.80.200.11 eq 53
+remark permit contacting DNS server
+permit ip 10.80.60.0 0.0.0.255 10.80.10.0 0.0.0.255
+remark Permit return traffic to Administration
+permit ip 10.80.60.0 0.0.0.255 10.80.20.0 0.0.0.255
+remark Permit return traffic to Direction for file access
+permit ip 10.80.60.0 0.0.0.255 host 10.80.200.13
+remark Permit contact to File Server in VLAN Serveurs
+deny ip any 10.80.0.0 0.0.255.255
+remark Deny contacting any other internal VLAN
+permit ip any any
+remark Permit traffic to Internet
+
+ip access-list extended INGENIEURS-IN
+permit udp any any eq 67
+remark permit contacting DHCP server
+permit udp any host 10.80.200.11 eq 53
+remark permit contacting DNS server
+permit ip 10.80.70.0 0.0.0.255 10.80.10.0 0.0.0.255
+remark Permit return traffic to Administration
+permit ip 10.80.70.0 0.0.0.255 10.80.20.0 0.0.0.255
+remark Permit return traffic to Direction for file access
+permit ip 10.80.70.0 0.0.0.255 host 10.80.200.13
+remark Permit contact to File Server in VLAN Serveurs
+deny ip any 10.80.0.0 0.0.255.255
+remark Deny contacting any other internal VLAN
+permit ip any any
+remark Permit traffic to Internet
+
+ip access-list extended MONTEURS-IN
+permit udp any any eq 67
+remark permit contacting DHCP server
+permit udp any host 10.80.200.11 eq 53
+remark permit contacting DNS server
+permit ip 10.80.80.0 0.0.0.255 10.80.10.0 0.0.0.255
+remark Permit return traffic to Administration
+permit ip 10.80.80.0 0.0.0.255 10.80.20.0 0.0.0.255
+remark Permit return traffic to Direction for file access
+permit ip 10.80.80.0 0.0.0.255 host 10.80.200.13
+remark Permit contact to File Server in VLAN Serveurs
+deny ip any 10.80.0.0 0.0.255.255
+remark Deny contacting any other internal VLAN
+permit ip any any
+remark Permit traffic to Internet
+
+ip access-list extended EXPERTS-IN
+permit udp any any eq 67
+remark permit contacting DHCP server
+permit udp any host 10.80.200.11 eq 53
+remark permit contacting DNS server
+permit ip 10.80.90.0 0.0.0.255 10.80.10.0 0.0.0.255
+remark Permit return traffic to Administration
+permit ip 10.80.90.0 0.0.0.255 10.80.20.0 0.0.0.255
+remark Permit return traffic to Direction for file access
+permit ip 10.80.90.0 0.0.0.255 host 10.80.200.13
+remark Permit contact to File Server in VLAN Serveurs
+deny ip any 10.90.0.0 0.0.255.255
+remark Deny contacting any other internal VLAN
+permit ip any any
+remark Permit traffic to Internet
+
+ip access-list extended INVITES-IN
+permit udp any any eq 67
+remark permit contacting DHCP server
+permit udp any host 10.80.200.11 eq 53
+remark permit contacting DNS server
+permit ip 10.80.250.0 0.0.0.255 192.168.10.0 0.0.0.255
+remark Permit return traffic to Administration
+deny ip any 10.80.250.0 0.0.255.255
+remark Deny contacting any other internal VLAN
+permit ip any any
+remark Permit traffic to Internet
+
+ip access-list extended SERVEURS-IN
+permit udp any any eq 68
+remark permit forwarding of DHCP requests to DHCP-Relay
+permit ip host 10.80.200.13 10.80.0.0 0.0.255.255
+permit ip 10.80.200.0 0.0.0.255 10.80.10.0 0.0.0.255
+permit ip any any
+remark Permit traffic to Internet
