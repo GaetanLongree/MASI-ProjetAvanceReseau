@@ -1,0 +1,16 @@
+no ip domain-lookup
+hostname LA-S-serv
+
+vtp domain URSS.ru
+vtp password Tigrou007
+vtp mode client
+
+interface range gig6/1,gig7/1
+switchport trunk encapsulation dot1q
+switchport mode trunk
+switchport trunk allowed vlan 10,200
+switchport trunk native vlan 99
+
+interface fa0/1
+switchport mode access
+switchport access vlan 200
