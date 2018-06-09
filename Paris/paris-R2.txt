@@ -347,3 +347,7 @@ spanning-tree vlan 60 root primary
 spanning-tree vlan 80 root primary
 spanning-tree vlan 100 root primary
 spanning-tree vlan 200 root primary
+
+! Routes to ASA firewalls
+ip route 0.0.0.0 0.0.0.0 10.80.254.3 
+ip route 0.0.0.0 0.0.0.0 10.80.254.11 5
