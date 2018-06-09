@@ -1,0 +1,104 @@
+! Enable Security Plus license
+activation-key 0x1321CF73 0xFCB68F7E 0x801111DC 0xB554E4A4 0x0F3E008D
+
+write memory
+reload
+
+! Main configuration
+
+hostname ASA
+domain-name cisco.com
+
+banner motd ---------------------------------------------------
+banner motd             Authorized access only !
+banner motd ---------------------------------------------------
+banner motd
+
+enable password Tigrou007
+key config-key password encryption Tigrou007
+password encryption aes
+
+interface vlan 1
+no nameif
+no security-level
+no ip address
+interface vlan 2
+no nameif
+no security-level
+no ip address
+
+interface vlan 10
+nameif outside
+security-level 0
+ip address 209.165.72.2 255.255.255.252
+
+interface vlan 20
+nameif inside
+security-level 100
+ip address 10.80.254.3 255.255.255.248
+
+interface vlan 30
+nameif dmz
+security-level 50
+ip address 10.80.254.18 255.255.255.252
+
+interface Ethernet 0/0
+switchport access vlan 10
+interface Ethernet 0/1
+switchport access vlan 20
+interface Ethernet 0/2
+switchport access vlan 20
+interface Ethernet 0/3
+switchport access vlan 30
+interface Ethernet 0/4
+shutdown
+interface Ethernet 0/5
+shutdown
+interface Ethernet 0/6
+shutdown
+interface Ethernet 0/7
+shutdown
+
+object network INSIDE-NET
+subnet 10.80.0.0 255.255.0.0
+nat (inside,outside) dynamic interface
+
+route outside 0.0.0.0 0.0.0.0 209.165.72.1
+route inside 10.80.10.0 255.255.255.0 10.80.254.2
+route inside 10.80.10.0 255.255.255.0 10.80.254.1 5
+route inside 10.80.30.0 255.255.255.0 10.80.254.2
+route inside 10.80.30.0 255.255.255.0 10.80.254.1 5
+route inside 10.80.50.0 255.255.255.0 10.80.254.2
+route inside 10.80.50.0 255.255.255.0 10.80.254.1 5
+route inside 10.80.70.0 255.255.255.0 10.80.254.2
+route inside 10.80.70.0 255.255.255.0 10.80.254.1 5
+route inside 10.80.90.0 255.255.255.0 10.80.254.2
+route inside 10.80.90.0 255.255.255.0 10.80.254.1 5
+route inside 10.80.210.0 255.255.255.0 10.80.254.2
+route inside 10.80.210.0 255.255.255.0 10.80.254.1 5
+route inside 10.80.250.0 255.255.255.0 10.80.254.2
+route inside 10.80.250.0 255.255.255.0 10.80.254.1 5
+
+route inside 10.80.20.0 255.255.255.0 10.80.254.1
+route inside 10.80.20.0 255.255.255.0 10.80.254.2 5
+route inside 10.80.40.0 255.255.255.0 10.80.254.1
+route inside 10.80.40.0 255.255.255.0 10.80.254.2 5
+route inside 10.80.60.0 255.255.255.0 10.80.254.1
+route inside 10.80.60.0 255.255.255.0 10.80.254.2 5
+route inside 10.80.80.0 255.255.255.0 10.80.254.1
+route inside 10.80.80.0 255.255.255.0 10.80.254.2 5
+route inside 10.80.100.0 255.255.255.0 10.80.254.1
+route inside 10.80.100.0 255.255.255.0 10.80.254.2 5
+route inside 10.80.200.0 255.255.255.0 10.80.254.1
+route inside 10.80.200.0 255.255.255.0 10.80.254.2 5
+
+class-map inspection_default
+match default-inspection-traffic
+
+policy-map global_policy
+class inspection_default
+inspect icmp
+inspect dns
+inspect http
+service-policy global_policy global
+

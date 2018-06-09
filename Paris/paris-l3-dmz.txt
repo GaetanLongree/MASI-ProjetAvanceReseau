@@ -1,0 +1,11 @@
+hostname L3-DMZ
+
+interface GigabitEthernet1/0/23
+ no switchport
+ ip address 10.80.254.21 255.255.255.252
+ description To ASA-GAUCHE
+
+interface GigabitEthernet1/0/24
+ no switchport
+ ip address 10.80.254.17 255.255.255.252
+ description To ASA-DROITE

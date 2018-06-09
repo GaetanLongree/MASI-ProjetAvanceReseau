@@ -1,0 +1,7 @@
+hostname ISP
+
+interface GigabitEthernet0/0
+ ip address 209.165.72.1 255.255.255.252
+
+interface GigabitEthernet1/0
+ ip address 209.165.72.5 255.255.255.252
