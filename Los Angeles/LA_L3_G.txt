@@ -117,13 +117,13 @@ standby 250 preempt
 
 interface range gig1/0/11-12
 channel-group 1 mode on
+no shutdown
 
 interface port-channel 1
 switchport trunk encapsulation dot1q
 switchport mode trunk
 switchport trunk allowed vlan 10,20,30,60,90,100,250
 switchport trunk native vlan 99
-no shutdown
 
 interface range gig1/0/1-2
 switchport trunk encapsulation dot1q
