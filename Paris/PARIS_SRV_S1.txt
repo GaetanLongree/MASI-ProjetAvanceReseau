@@ -37,21 +37,21 @@ ip address 10.80.10.101 255.255.255.0
 
 int range fa0/11-12
 channel-group 1 mode on
+no shutdown
 
 interface port-channel 1
 switchport mode trunk
 switchport trunk allowed vlan 10,200
 switchport trunk native vlan 99
-no shutdown
 
 int range fa0/13-14
 channel-group 2 mode on
+no shutdown
 
 interface port-channel 2
 switchport mode trunk
 switchport trunk allowed vlan 10,200
 switchport trunk native vlan 99
-no shutdown
 
 int range fa0/1-6
 switchport mode access
