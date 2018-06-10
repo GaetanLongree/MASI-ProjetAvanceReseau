@@ -106,13 +106,13 @@ standby 250 preempt
 
 interface range gig1/0/11-12
 channel-group 1 mode on
+no shutdown
 
 interface port-channel 1
 switchport trunk encapsulation dot1q
 switchport mode trunk
 switchport trunk allowed vlan 10,20,30,90,100,250
 switchport trunk native vlan 99
-no shutdown
 
 interface range gig1/0/1-2
 switchport trunk encapsulation dot1q
@@ -143,11 +143,13 @@ interface GigabitEthernet1/0/23
 no switchport
 ip address 10.78.254.6 255.255.255.252
 description To EDGE-GAUCHE
+no shutdown
 
 interface GigabitEthernet1/0/24
 no switchport
 ip address 10.78.254.14 255.255.255.252
 description To EDGE-DROITE
+no shutdown
  
 ! Routes to ASA firewalls
 ip route 0.0.0.0 0.0.0.0 10.78.254.13
