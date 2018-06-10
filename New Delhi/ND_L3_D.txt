@@ -111,12 +111,12 @@ spanning-tree vlan 200 root primary
 ! Interfaces to the edge
 interface GigabitEthernet1/0/23
 no switchport
-ip address 10.78.254.6 255.255.255.253
+ip address 10.78.254.6 255.255.255.252
 description To EDGE-GAUCHE
 
 interface GigabitEthernet1/0/24
 no switchport
-ip address 10.78.254.14 255.255.255.253
+ip address 10.78.254.14 255.255.255.252
 description To EDGE-DROITE
  
 ! Routes to ASA firewalls
