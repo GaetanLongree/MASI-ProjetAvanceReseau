@@ -1,0 +1,65 @@
+ipv6 unicast-routing
+int vlan 10
+ipv6 address 2000:0000:0000:500A::FFFC/64
+ipv6 enable
+ipv6 traffic-filter ADMINISTRATIONV6-IN in
+standby version 2
+standby 11 ipv6 autoconfig
+standby 11 priority 255
+standby 11 preempt
+int vlan 20
+ipv6 address 2000:0000:0000:5014::FFFC/64
+ipv6 enable
+ipv6 traffic-filter DIRECTIONV6-IN in
+standby version 2
+standby 21 ipv6 autoconfig
+standby 21 priority 0
+standby 21 preempt
+int vlan 30
+ipv6 address 2000:0000:0000:501E::FFFC/64
+ipv6 enable
+ipv6 traffic-filter RHV6-IN in
+standby version 2
+standby 31 ipv6 autoconfig
+standby 31 priority 255
+standby 31 preempt
+int vlan 60
+ipv6 address 2000:0000:0000:503C::FFFC/64
+ipv6 enable
+ipv6 traffic-filter ARTISTESV6-IN in
+standby version 2
+standby 61 ipv6 autoconfig
+standby 61 priority 0
+standby 61 preempt
+int vlan 90
+ipv6 address 2000:0000:0000:505A::FFFC/64
+ipv6 enable
+ipv6 traffic-filter EXPERTSV6-IN in
+standby version 2
+standby 91 ipv6 autoconfig
+standby 91 priority 255
+standby 91 preempt
+int vlan 100
+ipv6 address 2000:0000:0000:5064::FFFC/64
+ipv6 enable
+ipv6 traffic-filter VOICEV6-IN in
+standby version 2
+standby 101 ipv6 autoconfig
+standby 101 priority 0
+standby 101 preempt
+int vlan 200
+ipv6 address 2000:0000:0000:50C8::FFFC/64
+ipv6 enable
+ipv6 traffic-filter SERVEURSV6-IN in
+standby version 2
+standby 201 ipv6 autoconfig
+standby 201 priority 0
+standby 201 preempt
+int vlan 250
+ipv6 address 2000:0000:0000:50FA::FFFC/64
+ipv6 enable
+ipv6 traffic-filter DIRECTIONV6-IN in
+standby version 2
+standby 251 ipv6 autoconfig
+standby 251 priority 255
+standby 251 preempt

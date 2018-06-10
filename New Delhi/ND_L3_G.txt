@@ -12,14 +12,12 @@ vlan 20
 name Direction
 vlan 30
 name RH
-vlan 60
-name Artistes
 vlan 90
 name Experts
 vlan 100
 name Voice
 Vlan 200
-name Servers
+name Serveurs
 vlan 250
 name Invites
 
@@ -49,14 +47,6 @@ standby version 2
 standby 30 ip 10.78.30.254
 standby 30 priority 255
 standby 30 preempt
-int vlan 60
-ip address 10.78.60.252 255.255.255.0
-ip helper-address 10.78.200.10
-ip access-group ARTISTES-IN in
-standby version 2
-standby 60 ip 10.78.60.254
-standby 60 priority 0
-standby 60 preempt
 int vlan 90
 ip address 10.78.90.252 255.255.255.0
 ip helper-address 10.78.200.10
@@ -96,13 +86,13 @@ channel-group 1 mode on
 interface port-channel 1
 switchport trunk encapsulation dot1q
 switchport mode trunk
-switchport trunk allowed vlan 10,20,30,60,90,100,250
+switchport trunk allowed vlan 10,20,30,90,100,250
 switchport trunk native vlan 99
 
 interface range gig1/0/1-2
 switchport trunk encapsulation dot1q
 switchport mode trunk
-switchport trunk allowed vlan 10,20,30,60,90,100,250
+switchport trunk allowed vlan 10,20,30,90,100,250
 switchport trunk native vlan 99
 
 interface range gig1/1/1-2
@@ -116,7 +106,6 @@ spanning-tree vlan 30 root primary
 spanning-tree vlan 90 root primary
 spanning-tree vlan 250 root primary
 spanning-tree vlan 20 root secondary
-spanning-tree vlan 60 root secondary
 spanning-tree vlan 100 root secondary
 spanning-tree vlan 200 root secondary
 

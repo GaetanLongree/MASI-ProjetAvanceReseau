@@ -19,7 +19,7 @@ name Experts
 vlan 100
 name Voice
 Vlan 200
-name Servers
+name Serveurs
 vlan 250
 name Invites
 
