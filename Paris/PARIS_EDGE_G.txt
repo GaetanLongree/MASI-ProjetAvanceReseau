@@ -75,7 +75,7 @@ ip route 10.80.210.0 255.255.255.0 10.80.254.10
 
 ! NAT
 ip nat inside source static 10.80.210.10 209.165.72.31
-ip nat inside source static 10.80.210.20 209.165.72.32
+ip nat inside source static 10.80.210.20 209.165.72.33
 ip nat inside source static 10.80.210.30 209.165.72.35
 access-list 1 permit 10.80.0.0 0.0.255.255
 ip nat inside source list 1 interface FastEthernet 0/0 overload
