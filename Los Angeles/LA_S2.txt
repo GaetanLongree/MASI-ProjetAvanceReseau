@@ -10,13 +10,11 @@ username Waldo secret 5 $1$mERr$DWwx4W/5HXD2oail62IeB1
 line vty 0 15
 transport input ssh
 login local
+access-class 10 in
 exit
 ip ssh version 2
-
-line console 0
-password 7 081545491B161047425C
-login
-exit
+access-list 10 permit 10.80.10.0 0.0.0.255
+access-list 10 deny any
 
 no cdp run
 
@@ -34,6 +32,9 @@ shut
 vtp domain URSS.ru
 vtp password Tigrou007
 vtp mode client
+
+interface vlan 10
+ip address 10.76.10.112 255.255.255.0
 
 interface gig0/1
 switchport mode trunk

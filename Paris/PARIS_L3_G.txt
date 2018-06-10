@@ -13,8 +13,11 @@ username Waldo secret 5 $1$mERr$DWwx4W/5HXD2oail62IeB1
 line vty 0 15
 transport input ssh
 login local
+access-class 10 in
 exit
 ip ssh version 2
+access-list 10 permit 10.80.10.0 0.0.0.255
+access-list 10 deny any
 
 line console 0
 password 7 081545491B161047425C
@@ -77,7 +80,7 @@ ip access-group DIRECTION-IN in
 standby version 2
 standby 20 ip 10.80.20.254
 standby 20 priority 0
-standby 20 preempt
+
 int vlan 30
 ip address 10.80.30.252 255.255.255.0
 ip helper-address 10.80.200.10

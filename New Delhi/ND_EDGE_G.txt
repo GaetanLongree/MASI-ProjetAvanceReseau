@@ -9,13 +9,11 @@ username Waldo secret 5 $1$mERr$DWwx4W/5HXD2oail62IeB1
 line vty 0 15
 transport input ssh
 login local
+access-class 10 in
 exit
 ip ssh version 2
-
-line console 0
-password 7 081545491B161047425C
-login
-exit
+access-list 10 permit 10.80.10.0 0.0.0.255
+access-list 10 deny any
 
 no cdp run
 
