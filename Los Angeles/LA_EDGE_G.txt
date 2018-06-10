@@ -1,0 +1,52 @@
+hostname LA-EDGE-G
+
+interface GigabitEther 0/0
+ip address 209.165.72.31 255.255.255.0
+description To ISP
+no shutdown
+interface GigabitEther 1/0
+ip address 10.76.254.1 255.255.255.252
+description To L3 G
+no shutdown
+interface GigabitEther 2/0
+ip address 10.76.254.5 255.255.255.252
+description To L3 D
+no shutdown
+
+ip route 0.0.0.0 0.0.0.0 209.165.72.254
+
+ip route 10.76.10.0 255.255.255.0 10.76.254.2
+ip route 10.76.10.0 255.255.255.0 10.76.254.6 5
+ip route 10.76.30.0 255.255.255.0 10.76.254.2
+ip route 10.76.30.0 255.255.255.0 10.76.254.6 5
+ip route 10.76.50.0 255.255.255.0 10.76.254.2
+ip route 10.76.50.0 255.255.255.0 10.76.254.6 5
+ip route 10.76.70.0 255.255.255.0 10.76.254.2
+ip route 10.76.70.0 255.255.255.0 10.76.254.6 5
+ip route 10.76.90.0 255.255.255.0 10.76.254.2
+ip route 10.76.90.0 255.255.255.0 10.76.254.6 5
+ip route 10.76.250.0 255.255.255.0 10.76.254.2
+ip route 10.76.250.0 255.255.255.0 10.76.254.6 5
+
+ip route 10.76.20.0 255.255.255.0 10.76.254.6
+ip route 10.76.20.0 255.255.255.0 10.76.254.2 5
+ip route 10.76.40.0 255.255.255.0 10.76.254.6
+ip route 10.76.40.0 255.255.255.0 10.76.254.2 5
+ip route 10.76.60.0 255.255.255.0 10.76.254.6
+ip route 10.76.60.0 255.255.255.0 10.76.254.2 5
+ip route 10.76.80.0 255.255.255.0 10.76.254.6
+ip route 10.76.80.0 255.255.255.0 10.76.254.2 5
+ip route 10.76.100.0 255.255.255.0 10.76.254.6
+ip route 10.76.100.0 255.255.255.0 10.76.254.2 5
+ip route 10.76.200.0 255.255.255.0 10.76.254.6
+ip route 10.76.200.0 255.255.255.0 10.76.254.2 5
+
+! NAT
+access-list 1 permit 10.76.0.0 0.0.255.255
+ip nat inside source list 1 interface GigabitEthernet 0/0 overload
+interface GigabitEthernet 0/0
+ip nat outside
+interface GigabitEthernet 1/0
+ip nat inside
+interface GigabitEthernet 2/0
+ip nat inside

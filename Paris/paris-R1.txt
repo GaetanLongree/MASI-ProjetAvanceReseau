@@ -183,49 +183,14 @@ spanning-tree vlan 200 root secondary
 ! Interfaces to ASA firewalls
 interface GigabitEthernet1/0/23
 no switchport
-ip address 10.80.254.2 255.255.255.248
-description To ASA-DROITE
+ip address 10.80.254.14 255.255.255.252
+description To EDGE-DROITE
 
 interface GigabitEthernet1/0/24
 no switchport
-ip address 10.80.254.10 255.255.255.248
-description To ASA-GAUCHE
+ip address 10.80.254.2 255.255.255.252
+description To EDGE-GAUCHE
  
 ! Routes to ASA firewalls
-ip route 0.0.0.0 0.0.0.0 10.80.254.3 
-ip route 0.0.0.0 0.0.0.0 10.80.254.11 5
-
-! Workaround : ASA does not NAT packets from behind L3 routing
-access-list 1 permit 10.80.0.0 0.0.255.255
-ip nat inside source list 1 interface GigabitEthernet 1/0/24 overload
-ip nat inside source list 1 interface GigabitEthernet 1/0/23 overload
-interface GigabitEthernet 1/0/24
-ip nat outside
-interface GigabitEthernet 1/0/23
-ip nat outside
-interface vlan 10
-ip nat inside
-interface vlan 20
-ip nat inside
-interface vlan 30
-ip nat inside
-interface vlan 40
-ip nat inside
-interface vlan 50
-ip nat inside
-interface vlan 60
-ip nat inside
-interface vlan 70
-ip nat inside
-interface vlan 80
-ip nat inside
-interface vlan 90
-ip nat inside
-interface vlan 100
-ip nat inside
-interface vlan 200
-ip nat inside
-interface vlan 210
-ip nat inside
-interface vlan 250
-ip nat inside
+ip route 0.0.0.0 0.0.0.0 10.80.254.13 
+ip route 0.0.0.0 0.0.0.0 10.80.254.1 5

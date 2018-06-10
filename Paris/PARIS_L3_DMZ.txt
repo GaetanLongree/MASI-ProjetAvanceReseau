@@ -3,17 +3,17 @@ hostname PARIS-L3-DMZ
 ! Interfaces to ASA firewalls
 interface GigabitEthernet1/0/23
  no switchport
- ip address 10.80.254.21 255.255.255.252
- description To ASA-GAUCHE
+ ip address 10.80.254.22 255.255.255.252
+ description To EDGE D
 
 interface GigabitEthernet1/0/24
  no switchport
- ip address 10.80.254.17 255.255.255.252
- description To ASA-DROITE
+ ip address 10.80.254.10 255.255.255.252
+ description To EDGE G
  
 ! Routes to ASA firewalls
-ip route 0.0.0.0 0.0.0.0 10.80.254.18 
-ip route 0.0.0.0 0.0.0.0 10.80.254.22 5
+ip route 0.0.0.0 0.0.0.0 10.80.254.21 
+ip route 0.0.0.0 0.0.0.0 10.80.254.9 5
 
 
 ! Main Configuration
