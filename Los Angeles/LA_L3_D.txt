@@ -154,11 +154,13 @@ interface GigabitEthernet1/0/23
 no switchport
 ip address 10.76.254.6 255.255.255.252
 description To EDGE-GAUCHE
+no shutdown
 
 interface GigabitEthernet1/0/24
 no switchport
 ip address 10.76.254.14 255.255.255.252
 description To EDGE-DROITE
+no shutdown
  
 ! Routes to ASA firewalls
 ip route 0.0.0.0 0.0.0.0 10.76.254.13
