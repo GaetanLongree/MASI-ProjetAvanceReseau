@@ -26,22 +26,6 @@ interface range gig1/1/1-4
 switchport nonegotiate
 shut
 
-! Interfaces to ASA firewalls
-interface GigabitEthernet1/0/23
- no switchport
- ip address 10.80.254.22 255.255.255.252
- description To EDGE D
-
-interface GigabitEthernet1/0/24
- no switchport
- ip address 10.80.254.10 255.255.255.252
- description To EDGE G
- 
-! Routes to ASA firewalls
-ip route 0.0.0.0 0.0.0.0 10.80.254.21 
-ip route 0.0.0.0 0.0.0.0 10.80.254.9 5
-
-
 ! Main Configuration
 ip routing
 vlan 210
@@ -61,15 +45,20 @@ no shutdown
 interface GigabitEthernet1/0/3
 switchport access vlan 210
 no shutdown
- 
 
-! Workaround : ASA does not NAT packets from behind L3 routing
-access-list 1 permit 10.80.210.0 0.0.0.255
-ip nat inside source list 1 interface GigabitEthernet 1/0/24 overload
-ip nat inside source list 1 interface GigabitEthernet 1/0/23 overload
-interface GigabitEthernet 1/0/24
-ip nat outside
-interface GigabitEthernet 1/0/23
-ip nat outside
-interface vlan 210
-ip nat inside
+! Interfaces to ASA firewalls
+interface GigabitEthernet1/0/23
+no switchport
+ip address 10.80.254.22 255.255.255.252
+description To EDGE D
+no shutdown
+
+interface GigabitEthernet1/0/24
+no switchport
+ip address 10.80.254.10 255.255.255.252
+description To EDGE G
+no shutdown
+
+! Routes to ASA firewalls
+ip route 0.0.0.0 0.0.0.0 10.80.254.21 
+ip route 0.0.0.0 0.0.0.0 10.80.254.9 5

@@ -36,17 +36,17 @@ shut
 
 interface gig0/1
 switchport mode trunk
-switchport trunk allowed vlan 10,20,30,90,100,200,250
+switchport trunk allowed vlan 10,20,30,90,100,250
 switchport trunk native vlan 99
 no shutdown
 
 interface gig0/2
 switchport mode trunk
-switchport trunk allowed vlan 10,20,30,90,100,200,250
+switchport trunk allowed vlan 10,20,30,90,100,250
 switchport trunk native vlan 99
 no shutdown
 
-interface range fa0/3
+interface fa0/3
 switchport mode access
 switchport access vlan 10
 switchport port-security
@@ -56,7 +56,7 @@ spanning-tree portfast
 spanning-tree bpduguard enable
 no shutdown
 
-interface range fa0/4
+interface fa0/4
 switchport mode access
 switchport access vlan 20
 switchport port-security
@@ -66,7 +66,7 @@ spanning-tree portfast
 spanning-tree bpduguard enable
 no shutdown
 
-interface range fa0/5
+interface fa0/5
 switchport mode access
 switchport access vlan 30
 switchport port-security
@@ -76,7 +76,7 @@ spanning-tree portfast
 spanning-tree bpduguard enable
 no shutdown
 
-interface range fa0/6
+interface fa0/6
 switchport mode access
 switchport access vlan 90
 switchport port-security
@@ -86,7 +86,7 @@ spanning-tree portfast
 spanning-tree bpduguard enable
 no shutdown
 
-interface range fa0/7
+interface fa0/7
 switchport mode access
 switchport access vlan 100
 switchport port-security
@@ -96,7 +96,7 @@ spanning-tree portfast
 spanning-tree bpduguard enable
 no shutdown
 
-interface range fa0/8
+interface fa0/8
 switchport mode access
 switchport access vlan 250
 switchport port-security

@@ -130,6 +130,8 @@ switchport trunk allowed vlan 10,200
 switchport trunk native vlan 99
 no shutdown
 
+spanning-tree mode rapid-pvst
+spanning-tree vlan 10,20,30,90,100,200,250
 spanning-tree vlan 10 root secondary
 spanning-tree vlan 30 root secondary
 spanning-tree vlan 90 root secondary

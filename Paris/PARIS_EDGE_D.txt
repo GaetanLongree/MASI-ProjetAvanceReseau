@@ -19,19 +19,6 @@ exit
 
 no cdp run
 
-interface range FastEthernet 0/0-1
-switchport nonegotiate
-shut
-interface range FastEthernet1/0-1
-switchport nonegotiate
-shut
-interface Ethernet0/2/0
-switchport nonegotiate
-shut
-interface Ethernet0/3/0
-switchport nonegotiate
-shut
-
 interface FastEthernet 0/0
 ip address 209.165.72.22 255.255.255.0
 description To ISP
@@ -96,6 +83,8 @@ ip nat inside
 interface FastEthernet 1/0
 ip nat inside
 interface FastEthernet 1/1
+ip nat inside
+interface Ethernet0/2/0
 ip nat inside
 
 ! VPN Tunnels

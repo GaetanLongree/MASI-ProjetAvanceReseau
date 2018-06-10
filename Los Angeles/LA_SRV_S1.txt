@@ -1,7 +1,6 @@
 hostname LA-SRV-S1
 no ip domain-lookup
 
-
 enable secret 5 $1$mERr$DWwx4W/5HXD2oail62IeB1
 
 ip domain-name pktsux.com

@@ -1,5 +1,5 @@
 no ip domain-lookup
-hostname PARIS-SW-SRV
+hostname PARIS-SW-S1
 
 vtp mode client
 vtp domain URSS.ru
@@ -60,3 +60,4 @@ switchport port-security maximum 1
 switchport port-security mac-address sticky
 spanning-tree portfast
 spanning-tree bpduguard enable
+no shutdown
