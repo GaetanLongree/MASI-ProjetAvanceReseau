@@ -1,5 +1,37 @@
 hostname LA-EDGE-D
 
+enable secret 5 $1$mERr$DWwx4W/5HXD2oail62IeB1
+
+ip domain-name pktsux.com
+crypto key generate rsa
+1024
+username Waldo secret 5 $1$mERr$DWwx4W/5HXD2oail62IeB1
+line vty 0 15
+transport input ssh
+login local
+exit
+ip ssh version 2
+
+line console 0
+password 7 081545491B161047425C
+login
+exit
+
+no cdp run
+
+interface range FastEthernet 0/0-1
+switchport nonegotiate
+shut
+interface range FastEthernet1/0-1
+switchport nonegotiate
+shut
+interface Ethernet0/2/0
+switchport nonegotiate
+shut
+interface Ethernet0/3/0
+switchport nonegotiate
+shut
+
 interface FastEthernet 0/0
 ip address 209.165.72.32 255.255.255.0
 description To ISP
@@ -12,8 +44,14 @@ interface FastEthernet 1/0
 ip address 10.76.254.9 255.255.255.252
 description To L3 G
 no shutdown
+interface FastEthernet 1/1
+ip address 10.76.254.18 255.255.255.252
+description To EDGE G
+no shutdown
 
 ip route 0.0.0.0 0.0.0.0 209.165.72.254
+
+ip route 0.0.0.0 0.0.0.0 10.76.254.17 5
 
 ip route 10.76.10.0 255.255.255.0 10.76.254.10
 ip route 10.76.10.0 255.255.255.0 10.76.254.14 5

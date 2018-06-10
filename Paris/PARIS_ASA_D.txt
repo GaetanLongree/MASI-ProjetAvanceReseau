@@ -12,6 +12,8 @@ domain-name cisco.com
 !key config-key password encryption Tigrou007
 !password encryption aes
 
+
+
 interface vlan 2
 nameif outside
 security-level 0

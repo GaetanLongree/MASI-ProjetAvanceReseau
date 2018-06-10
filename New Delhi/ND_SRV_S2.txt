@@ -1,18 +1,52 @@
 hostname ND-SRV-S2
 no ip domain-lookup
 
+enable secret 5 $1$mERr$DWwx4W/5HXD2oail62IeB1
+
+ip domain-name pktsux.com
+crypto key generate rsa
+1024
+username Waldo secret 5 $1$mERr$DWwx4W/5HXD2oail62IeB1
+line vty 0 15
+transport input ssh
+login local
+exit
+ip ssh version 2
+
+line console 0
+password 7 081545491B161047425C
+login
+exit
+
+no cdp run
+
 vtp mode client
 vtp domain URSS.ru
 vtp password Tigrou007
+
+spanning-tree mode rapid-pvst
+spanning-tree vlan 10,200
+
+interface range fa0/1-24
+switchport nonegotiate
+shut
+interface range gig0/1-2
+switchport nonegotiate
+shut
 
 interface range gig0/1,g1/1
 switchport trunk encapsulation dot1q
 switchport mode trunk
 switchport trunk allowed vlan 10,200
 switchport trunk native vlan 99
+no shutdown
 
-int range gig2/1,gig3/1,gig4/1,gig5/1
+int range fa0/1-4
 switchport mode access
 switchport access vlan 200
+switchport port-security
+switchport port-security maximum 1
+switchport port-security mac-address sticky
 spanning-tree portfast
 spanning-tree bpduguard enable
+no shutdown
