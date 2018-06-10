@@ -1,17 +1,19 @@
 hostname LA-SRV-S1
 no ip domain-lookup
 
+spanning-tree mode rapid-pvst
+
 vtp mode client
 vtp domain URSS.ru
 vtp password Tigrou007
 
-interface range gig0/1,g1/1
+interface range gig0/1,g0/2
 switchport trunk encapsulation dot1q
 switchport mode trunk
 switchport trunk allowed vlan 10,200
 switchport trunk native vlan 99
 
-int range gig2/1,gig3/1,gig4/1,gig5/1
+int range fa0/1-4
 switchport mode access
 switchport access vlan 200
 spanning-tree portfast

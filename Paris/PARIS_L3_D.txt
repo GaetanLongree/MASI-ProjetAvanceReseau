@@ -143,7 +143,7 @@ standby 250 ip 10.80.250.254
 standby 250 priority 0
 standby 250 preempt
 
-interface range gig1/1/3-4
+interface range gig1/0/11-12
 channel-group 1 mode on
 
 interface port-channel 1
@@ -152,7 +152,7 @@ switchport mode trunk
 switchport trunk allowed vlan 10,20,30,40,50,60,70,80,90,100,200,210,250
 switchport trunk native vlan 99
 
-interface range gig1/1/1-2
+interface range gig1/0/13-14
 channel-group 2 mode on
 
 interface port-channel 2
@@ -167,6 +167,7 @@ switchport mode trunk
 switchport trunk allowed vlan 10,20,30,40,50,60,70,80,90,100,200,210,250
 switchport trunk native vlan 99
 
+spanning-tree mode rapid-pvst
 spanning-tree vlan 10 root secondary
 spanning-tree vlan 30 root secondary
 spanning-tree vlan 50 root secondary
