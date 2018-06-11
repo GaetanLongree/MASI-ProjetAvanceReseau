@@ -1,0 +1,36 @@
+hostname PARIS-L3-DMZ
+ip domain-name pktsux.com
+no cdp run
+
+! Main Configuration
+ip routing
+vlan 210
+name DMZ
+interface vlan 210
+ip address 10.80.210.254 255.255.255.0
+no shutdown
+
+interface vlan 10
+ip address 10.80.10.113 255.255.255.0
+no shutdown
+
+interface range GigabitEthernet0/0-3
+switchport mode access
+switchport access vlan 210
+
+! Interfaces to ASA firewalls
+interface g3/3
+no switchport
+ip address 10.80.254.22 255.255.255.252
+description To EDGE D
+no shutdown
+
+interface g3/2
+no switchport
+ip address 10.80.254.10 255.255.255.252
+description To EDGE G
+no shutdown
+
+! Routes to ASA firewalls
+ip route 0.0.0.0 0.0.0.0 10.80.254.21 
+ip route 0.0.0.0 0.0.0.0 10.80.254.9 5

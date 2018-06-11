@@ -1,0 +1,139 @@
+no ip domain-lookup
+hostname PARIS-S3
+
+vtp mode client
+vtp domain URSS.ru
+vtp password Tigrou007
+ip domain-name pktsux.com
+no cdp run
+
+spanning-tree mode rapid-pvst
+spanning-tree vlan 10,20,30,40,50,60,70,80,90,100,250
+
+interface vlan 10
+ip address 10.80.10.114 255.255.255.0
+no shutdown
+
+interface gig3/2
+switchport trunk encapsulation dot1q
+switchport mode trunk
+switchport trunk allowed vlan 10,20,30,40,50,60,70,80,90,100,250
+switchport trunk native vlan 99
+no shutdown
+
+interface gig3/3
+switchport trunk encapsulation dot1q
+switchport mode trunk
+switchport trunk allowed vlan 10,20,30,40,50,60,70,80,90,100,250
+switchport trunk native vlan 99
+no shutdown
+
+interface g0/0
+switchport mode access
+switchport access vlan 10
+switchport port-security
+switchport port-security maximum 2
+switchport port-security mac-address sticky
+spanning-tree portfast
+spanning-tree bpduguard enable
+no shutdown
+
+interface g0/1
+switchport mode access
+switchport access vlan 20
+switchport port-security
+switchport port-security maximum 2
+switchport port-security mac-address sticky
+spanning-tree portfast
+spanning-tree bpduguard enable
+no shutdown
+
+interface g0/2
+switchport mode access
+switchport access vlan 30
+switchport port-security
+switchport port-security maximum 2
+switchport port-security mac-address sticky
+spanning-tree portfast
+spanning-tree bpduguard enable
+no shutdown
+
+interface g0/3
+switchport mode access
+switchport access vlan 40
+switchport port-security
+switchport port-security maximum 2
+switchport port-security mac-address sticky
+spanning-tree portfast
+spanning-tree bpduguard enable
+no shutdown
+
+interface g1/0
+switchport mode access
+switchport access vlan 50
+switchport port-security
+switchport port-security maximum 2
+switchport port-security mac-address sticky
+spanning-tree portfast
+spanning-tree bpduguard enable
+no shutdown
+
+interface g1/1
+switchport mode access
+switchport access vlan 60
+switchport port-security
+switchport port-security maximum 2
+switchport port-security mac-address sticky
+spanning-tree portfast
+spanning-tree bpduguard enable
+no shutdown
+
+interface g1/2
+switchport mode access
+switchport access vlan 70
+switchport port-security
+switchport port-security maximum 2
+switchport port-security mac-address sticky
+spanning-tree portfast
+spanning-tree bpduguard enable
+no shutdown
+
+interface g1/3
+switchport mode access
+switchport access vlan 80
+switchport port-security
+switchport port-security maximum 2
+switchport port-security mac-address sticky
+spanning-tree portfast
+spanning-tree bpduguard enable
+no shutdown
+
+interface g2/0
+switchport mode access
+switchport access vlan 90
+switchport port-security
+switchport port-security maximum 2
+switchport port-security mac-address sticky
+spanning-tree portfast
+spanning-tree bpduguard enable
+no shutdown
+
+interface g2/1
+switchport mode access
+switchport access vlan 100
+switchport port-security
+switchport port-security maximum 2
+switchport port-security mac-address sticky
+spanning-tree portfast
+spanning-tree bpduguard enable
+no shutdown
+
+interface g2/2
+switchport mode access
+switchport access vlan 250
+switchport port-security
+switchport port-security maximum 2
+switchport port-security mac-address sticky
+spanning-tree portfast
+spanning-tree bpduguard enable
+no shutdown

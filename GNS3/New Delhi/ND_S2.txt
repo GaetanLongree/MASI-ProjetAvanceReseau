@@ -1,0 +1,89 @@
+hostname ND-S2
+no ip domain-lookup
+ip domain-name pktsux.com
+no cdp run
+
+vtp domain URSS.ru
+vtp password Tigrou007
+vtp mode client
+
+spanning-tree mode rapid-pvst
+spanning-tree vlan 10,20,30,90,100,200,250
+
+interface vlan 10
+ip address 10.78.10.112 255.255.255.0
+no shutdown
+
+interface gig3/2
+switchport trunk encapsulation dot1q
+switchport mode trunk
+switchport trunk allowed vlan 10,20,30,90,100,250
+switchport trunk native vlan 99
+no shutdown
+
+interface gig3/3
+switchport trunk encapsulation dot1q
+switchport mode trunk
+switchport trunk allowed vlan 10,20,30,90,100,250
+switchport trunk native vlan 99
+no shutdown
+
+interface g0/0
+switchport mode access
+switchport access vlan 10
+switchport port-security
+switchport port-security maximum 2
+switchport port-security mac-address sticky
+spanning-tree portfast
+spanning-tree bpduguard enable
+no shutdown
+
+interface g0/1
+switchport mode access
+switchport access vlan 20
+switchport port-security
+switchport port-security maximum 2
+switchport port-security mac-address sticky
+spanning-tree portfast
+spanning-tree bpduguard enable
+no shutdown
+
+interface g0/2
+switchport mode access
+switchport access vlan 30
+switchport port-security
+switchport port-security maximum 2
+switchport port-security mac-address sticky
+spanning-tree portfast
+spanning-tree bpduguard enable
+no shutdown
+
+interface g0/3
+switchport mode access
+switchport access vlan 90
+switchport port-security
+switchport port-security maximum 2
+switchport port-security mac-address sticky
+spanning-tree portfast
+spanning-tree bpduguard enable
+no shutdown
+
+interface g1/0
+switchport mode access
+switchport access vlan 100
+switchport port-security
+switchport port-security maximum 2
+switchport port-security mac-address sticky
+spanning-tree portfast
+spanning-tree bpduguard enable
+no shutdown
+
+interface g1/1
+switchport mode access
+switchport access vlan 250
+switchport port-security
+switchport port-security maximum 2
+switchport port-security mac-address sticky
+spanning-tree portfast
+spanning-tree bpduguard enable
+no shutdown

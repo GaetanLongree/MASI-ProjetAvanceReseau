@@ -1,0 +1,103 @@
+hostname PARIS-EDGE-D
+ip domain-name pktsux.com
+no cdp run
+
+interface g0/0
+ip address 209.165.72.22 255.255.255.0
+description To ISP
+no shutdown
+interface g0/1
+ip address 10.80.254.17 255.255.255.252
+description To L3 D
+no shutdown
+interface g0/2
+ip address 10.80.254.13 255.255.255.252
+description To L3 G
+no shutdown
+interface g0/3
+ip address 10.80.254.21 255.255.255.252
+description To L3 DMZ
+no shutdown
+
+ip route 0.0.0.0 0.0.0.0 209.165.72.254
+! Backup to other EDGE router
+!ip route 0.0.0.0 0.0.0.0 10.80.254.26 5
+
+ip route 10.80.10.0 255.255.255.0 10.80.254.14
+ip route 10.80.10.0 255.255.255.0 10.80.254.18 5
+ip route 10.80.30.0 255.255.255.0 10.80.254.14
+ip route 10.80.30.0 255.255.255.0 10.80.254.18 5
+ip route 10.80.50.0 255.255.255.0 10.80.254.14
+ip route 10.80.50.0 255.255.255.0 10.80.254.18 5
+ip route 10.80.70.0 255.255.255.0 10.80.254.14
+ip route 10.80.70.0 255.255.255.0 10.80.254.18 5
+ip route 10.80.90.0 255.255.255.0 10.80.254.14
+ip route 10.80.90.0 255.255.255.0 10.80.254.18 5
+ip route 10.80.250.0 255.255.255.0 10.80.254.14
+ip route 10.80.250.0 255.255.255.0 10.80.254.18 5
+
+ip route 10.80.20.0 255.255.255.0 10.80.254.18
+ip route 10.80.20.0 255.255.255.0 10.80.254.14 5
+ip route 10.80.40.0 255.255.255.0 10.80.254.18
+ip route 10.80.40.0 255.255.255.0 10.80.254.14 5
+ip route 10.80.60.0 255.255.255.0 10.80.254.18
+ip route 10.80.60.0 255.255.255.0 10.80.254.14 5
+ip route 10.80.80.0 255.255.255.0 10.80.254.18
+ip route 10.80.80.0 255.255.255.0 10.80.254.14 5
+ip route 10.80.100.0 255.255.255.0 10.80.254.18
+ip route 10.80.100.0 255.255.255.0 10.80.254.14 5
+ip route 10.80.200.0 255.255.255.0 10.80.254.18
+ip route 10.80.200.0 255.255.255.0 10.80.254.14 5
+
+! to DMZ network
+ip route 10.80.210.0 255.255.255.0 10.80.254.22
+
+! NAT
+ip nat inside source static 10.80.210.10 209.165.72.30
+ip nat inside source static 10.80.210.20 209.165.72.32
+ip nat inside source static 10.80.210.30 209.165.72.34
+access-list 1 permit 10.80.0.0 0.0.255.255
+ip nat inside source list 1 interface g0/0 overload
+interface g0/0
+ip nat outside
+interface g0/1
+ip nat inside
+interface g0/2
+ip nat inside
+interface g0/3
+ip nat inside
+
+! VPN Tunnels
+! To New Delhi Tunnels
+interface Tunnel0
+! description To ND_EDGE_G
+ip address 192.168.10.9 255.255.255.252
+tunnel source g0/0
+tunnel destination 209.165.72.11
+
+interface Tunnel1
+! description To ND_EDGE_D
+ip address 192.168.10.13 255.255.255.252
+tunnel source g0/0
+tunnel destination 209.165.72.12
+
+! To Los Angeles Tunnels
+interface Tunnel2
+! description To LA_EDGE_G
+ip address 192.168.10.25 255.255.255.252
+tunnel source g0/0
+tunnel destination 209.165.72.31
+
+interface Tunnel3
+! description To LA_EDGE_D
+ip address 192.168.10.29 255.255.255.252
+tunnel source g0/0
+tunnel destination 209.165.72.32
+
+! Tunnel routes
+! Routes to New Delhi
+ip route 10.78.0.0 255.255.0.0 192.168.10.14
+ip route 10.78.0.0 255.255.0.0 192.168.10.10 5
+! Routes to Los Angeles
+ip route 10.76.0.0 255.255.0.0 192.168.10.30
+ip route 10.76.0.0 255.255.0.0 192.168.10.26 5

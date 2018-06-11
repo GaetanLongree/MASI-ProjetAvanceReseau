@@ -1,0 +1,159 @@
+enable
+configure terminal
+hostname LA-L3-D
+no ip domain-lookup
+ip domain-name pktsux.com
+
+ip routing
+no cdp run
+
+vlan 10
+name Administration
+vlan 20
+name Direction
+vlan 30
+name RH
+vlan 60
+name Artistes
+vlan 90
+name Experts
+vlan 100
+name Voice
+Vlan 200
+name Serveurs
+vlan 250
+name Invites
+vlan 99
+name BLACKHOLES
+
+vtp mode server
+vtp domain URSS.ru
+vtp password Tigrou007
+
+int vlan 10
+ip address 10.76.10.253 255.255.255.0
+ip helper-address 10.76.200.10
+ip access-group ADMINISTRATION-IN in
+standby version 2
+standby 10 ip 10.76.10.254
+standby 10 priority 0
+no shutdown
+
+int vlan 20
+ip address 10.76.20.253 255.255.255.0
+ip helper-address 10.76.200.10
+ip access-group DIRECTION-IN in
+standby version 2
+standby 20 ip 10.76.20.254
+standby 20 priority 255
+standby 20 preempt
+no shutdown
+
+int vlan 30
+ip address 10.76.30.253 255.255.255.0
+ip helper-address 10.76.200.10
+ip access-group RH-IN in
+standby version 2
+standby 30 ip 10.76.30.254
+standby 30 priority 0
+no shutdown
+
+int vlan 60
+ip address 10.76.60.253 255.255.255.0
+ip helper-address 10.76.200.10
+ip access-group ARTISTES-IN in
+standby version 2
+standby 60 ip 10.76.60.254
+standby 60 priority 255
+standby 60 preempt
+no shutdown
+
+int vlan 90
+ip address 10.76.90.253 255.255.255.0
+ip helper-address 10.76.200.10
+ip access-group EXPERTS-IN in
+standby version 2
+standby 90 ip 10.76.90.254
+standby 90 priority 0
+no shutdown
+
+int vlan 100
+ip address 10.76.100.253 255.255.255.0
+ip helper-address 10.76.200.10
+ip access-group VOIP-IN in
+standby version 2
+standby 100 ip 10.76.100.254
+standby 100 priority 255
+standby 100 preempt
+no shutdown
+
+int vlan 200
+ip address 10.76.200.253 255.255.255.0
+ip helper-address 10.76.200.10
+ip access-group SERVEURS-IN in
+standby version 2
+standby 200 ip 10.76.200.254
+standby 200 priority 255
+standby 200 preempt
+no shutdown
+
+int vlan 250
+ip address 10.76.250.253 255.255.255.0
+ip helper-address 10.76.200.10
+ip access-group INVITES-IN in
+standby version 2
+standby 250 ip 10.76.250.254
+standby 250 priority 0
+no shutdown
+
+interface range gig3/2-3
+channel-group 1 mode on
+no shutdown
+
+interface port-channel 1
+switchport trunk encapsulation dot1q
+switchport mode trunk
+switchport trunk allowed vlan 10,20,30,90,100,250
+switchport trunk native vlan 99
+
+interface range gig2/2-3
+switchport trunk encapsulation dot1q
+switchport mode trunk
+switchport trunk allowed vlan 10,20,30,90,100,250
+switchport trunk native vlan 99
+no shutdown
+
+interface range gig3/0-1
+switchport trunk encapsulation dot1q
+switchport mode trunk
+switchport trunk allowed vlan 10,200
+switchport trunk native vlan 99
+no shutdown
+
+spanning-tree mode rapid-pvst
+spanning-tree vlan 10,20,30,60,90,100,200,250
+spanning-tree vlan 10 root secondary
+spanning-tree vlan 30 root secondary
+spanning-tree vlan 90 root secondary
+spanning-tree vlan 250 root secondary
+spanning-tree vlan 20 root primary
+spanning-tree vlan 60 root primary
+spanning-tree vlan 100 root primary
+spanning-tree vlan 200 root primary
+
+! Interfaces to the edge
+interface GigabitEthernet2/1
+no switchport
+ip address 10.76.254.6 255.255.255.252
+description To EDGE-GAUCHE
+no shutdown
+
+interface GigabitEthernet2/0
+no switchport
+ip address 10.76.254.14 255.255.255.252
+description To EDGE-DROITE
+no shutdown
+ 
+! Routes to ASA firewalls
+ip route 0.0.0.0 0.0.0.0 10.76.254.13
+ip route 0.0.0.0 0.0.0.0 10.76.254.5 5

@@ -1,0 +1,45 @@
+no ip domain-lookup
+hostname PARIS-SW-S1
+
+vtp mode client
+vtp domain URSS.ru
+vtp password Tigrou007
+
+no cdp run
+
+spanning-tree mode rapid-pvst
+spanning-tree vlan 10,200
+
+interface vlan 10
+ip address 10.80.10.101 255.255.255.0
+no shutdown
+
+int range g3/0-1
+channel-group 1 mode on
+no shutdown
+
+interface port-channel 1
+switchport trunk encapsulation dot1Q
+switchport mode trunk
+switchport trunk allowed vlan 10,200
+switchport trunk native vlan 99
+
+int range g3/2-3
+channel-group 2 mode on
+no shutdown
+
+interface port-channel 2
+switchport trunk encapsulation dot1Q
+switchport mode trunk
+switchport trunk allowed vlan 10,200
+switchport trunk native vlan 99
+
+int range g0/0-3
+switchport mode access
+switchport access vlan 200
+switchport port-security
+switchport port-security maximum 1
+switchport port-security mac-address sticky
+spanning-tree portfast
+spanning-tree bpduguard enable
+no shutdown

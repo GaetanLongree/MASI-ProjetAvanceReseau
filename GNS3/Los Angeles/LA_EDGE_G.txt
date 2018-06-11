@@ -1,0 +1,97 @@
+hostname LA-EDGE-G
+ip domain-name pktsux.com
+no cdp run
+
+interface g0/0
+ip address 209.165.72.31 255.255.255.0
+description To ISP
+no shutdown
+interface g0/1
+ip address 10.76.254.1 255.255.255.252
+description To L3 G
+no shutdown
+interface g0/2
+ip address 10.76.254.5 255.255.255.252
+description To L3 D
+no shutdown
+interface g0/3
+ip address 10.76.254.17 255.255.255.252
+description To EDGE D
+no shutdown
+
+ip route 0.0.0.0 0.0.0.0 209.165.72.254
+
+ip route 0.0.0.0 0.0.0.0 10.76.254.18 5
+
+ip route 10.76.10.0 255.255.255.0 10.76.254.2
+ip route 10.76.10.0 255.255.255.0 10.76.254.6 5
+ip route 10.76.30.0 255.255.255.0 10.76.254.2
+ip route 10.76.30.0 255.255.255.0 10.76.254.6 5
+ip route 10.76.50.0 255.255.255.0 10.76.254.2
+ip route 10.76.50.0 255.255.255.0 10.76.254.6 5
+ip route 10.76.70.0 255.255.255.0 10.76.254.2
+ip route 10.76.70.0 255.255.255.0 10.76.254.6 5
+ip route 10.76.90.0 255.255.255.0 10.76.254.2
+ip route 10.76.90.0 255.255.255.0 10.76.254.6 5
+ip route 10.76.250.0 255.255.255.0 10.76.254.2
+ip route 10.76.250.0 255.255.255.0 10.76.254.6 5
+
+ip route 10.76.20.0 255.255.255.0 10.76.254.6
+ip route 10.76.20.0 255.255.255.0 10.76.254.2 5
+ip route 10.76.40.0 255.255.255.0 10.76.254.6
+ip route 10.76.40.0 255.255.255.0 10.76.254.2 5
+ip route 10.76.60.0 255.255.255.0 10.76.254.6
+ip route 10.76.60.0 255.255.255.0 10.76.254.2 5
+ip route 10.76.80.0 255.255.255.0 10.76.254.6
+ip route 10.76.80.0 255.255.255.0 10.76.254.2 5
+ip route 10.76.100.0 255.255.255.0 10.76.254.6
+ip route 10.76.100.0 255.255.255.0 10.76.254.2 5
+ip route 10.76.200.0 255.255.255.0 10.76.254.6
+ip route 10.76.200.0 255.255.255.0 10.76.254.2 5
+
+! NAT
+access-list 1 permit 10.76.0.0 0.0.255.255
+ip nat inside source list 1 interface g0/0 overload
+interface g0/0
+ip nat outside
+interface g0/1
+ip nat inside
+interface g0/2
+ip nat inside
+interface g0/3
+ip nat inside
+
+! VPN Tunnels
+! To Paris Tunnels
+interface Tunnel0
+! description To PARIS_EDGE_G
+ip address 192.168.10.18 255.255.255.252
+tunnel source g0/0
+tunnel destination 209.165.72.21
+
+interface Tunnel1
+! description To PARIS_EDGE_D
+ip address 192.168.10.26 255.255.255.252
+tunnel source g0/0
+tunnel destination 209.165.72.22
+
+! To New Delhi Tunnels
+interface Tunnel2
+! description To ND_EDGE_G
+ip address 192.168.10.34 255.255.255.252
+tunnel source g0/0
+tunnel destination 209.165.72.11
+
+interface Tunnel3
+! description To ND_EDGE_D
+ip address 192.168.10.42 255.255.255.252
+tunnel source g0/0
+tunnel destination 209.165.72.12
+
+! Tunnel routes
+! Routes to Paris
+ip route 10.80.0.0 255.255.0.0 192.168.10.25
+ip route 10.80.0.0 255.255.0.0 192.168.10.17 5
+! Routes to New Delhi
+ip route 10.78.0.0 255.255.0.0 192.168.10.41
+ip route 10.78.0.0 255.255.0.0 192.168.10.33 5

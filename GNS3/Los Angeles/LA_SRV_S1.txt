@@ -1,0 +1,42 @@
+hostname LA-SRV-S1
+no ip domain-lookup
+ip domain-name pktsux.com
+no cdp run
+
+spanning-tree mode rapid-pvst
+spanning-tree vlan 10,200
+
+vtp mode client
+vtp domain URSS.ru
+vtp password Tigrou007
+
+interface vlan 10
+ip address 10.76.10.101 255.255.255.0
+no shutdown
+
+interface range g3/2-3
+switchport trunk encapsulation dot1q
+switchport mode trunk
+switchport trunk allowed vlan 10,200
+switchport trunk native vlan 99
+no shutdown
+
+int range g0/0-3
+switchport mode access
+switchport access vlan 200
+switchport port-security
+switchport port-security maximum 1
+switchport port-security mac-address sticky
+spanning-tree portfast
+spanning-tree bpduguard enable
+no shutdown
+
+int range g1/0-3
+switchport mode access
+switchport access vlan 200
+switchport port-security
+switchport port-security maximum 1
+switchport port-security mac-address sticky
+spanning-tree portfast
+spanning-tree bpduguard enable
+no shutdown
