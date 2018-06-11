@@ -97,7 +97,7 @@ standby 200 ip 10.78.200.254
 standby 200 priority 0
 standby 200 preempt
 int vlan 250
-ip address 10.876.250.252 255.255.255.0
+ip address 10.78.250.252 255.255.255.0
 ip helper-address 10.78.200.10
 ip access-group INVITES-IN in
 standby version 2

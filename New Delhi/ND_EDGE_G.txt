@@ -105,8 +105,8 @@ tunnel destination 209.165.72.32
 
 ! Tunnel routes
 ! Routes to Paris
-ip route 10.78.0.0 255.255.0.0 192.168.10.9
-ip route 10.78.0.0 255.255.0.0 192.168.10.1 5
+ip route 10.80.0.0 255.255.0.0 192.168.10.9
+ip route 10.80.0.0 255.255.0.0 192.168.10.1 5
 ! Routes to Los Angeles
 ip route 10.76.0.0 255.255.0.0 192.168.10.38
 ip route 10.76.0.0 255.255.0.0 192.168.10.34 5

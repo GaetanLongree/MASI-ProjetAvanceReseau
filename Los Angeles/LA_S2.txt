@@ -19,7 +19,7 @@ access-list 10 deny any
 no cdp run
 
 spanning-tree mode rapid-pvst
-spanning-tree vlan vlan 10,20,30,40,50,60,70,80,90,100,250
+spanning-tree vlan 10,20,30,40,50,60,70,80,90,100,250
 
 interface range fa0/1-24
 switchport nonegotiate
