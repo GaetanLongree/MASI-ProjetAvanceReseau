@@ -1,0 +1,163 @@
+hostname PARIS-ASA-D
+domain-name cisco.com
+
+interface G0/0
+nameif outside
+security-level 0
+ip address 209.165.72.22 255.255.255.0
+no shutdown
+
+interface g0/1
+nameif inside1
+security-level 100
+ip address 10.80.254.17 255.255.255.252
+no shutdown
+
+interface g0/2
+nameif inside2
+security-level 100
+ip address 10.80.254.13 255.255.255.252
+no shutdown
+
+interface g0/3
+nameif inside3
+security-level 100
+ip address 10.80.254.26 255.255.255.252
+no shutdown
+
+interface g0/4
+nameif dmz
+security-level 50
+ip address 10.80.254.21 255.255.255.252
+no shutdown
+
+object network INSIDE-NET1
+subnet 10.80.0.0 255.255.0.0
+nat (inside1,outside) dynamic interface
+object network INSIDE-NET2
+subnet 10.80.0.0 255.255.0.0
+nat (inside2,outside) dynamic interface
+object network INSIDE-NET3
+subnet 10.80.0.0 255.255.0.0
+nat (inside3,outside) dynamic interface
+object network DMZ-NET
+subnet 10.80.0.0 255.255.0.0
+nat (dmz,outside) dynamic interface
+
+route outside 0.0.0.0 0.0.0.0 209.165.72.254
+! Backup to other EDGE router
+route inside3 0.0.0.0 0.0.0.0 10.80.254.25 5
+
+route inside2 10.80.10.0 255.255.255.0 10.80.254.14
+route inside1 10.80.10.0 255.255.255.0 10.80.254.18 5
+route inside2 10.80.30.0 255.255.255.0 10.80.254.14
+route inside1 10.80.30.0 255.255.255.0 10.80.254.18 5
+route inside2 10.80.50.0 255.255.255.0 10.80.254.14
+route inside1 10.80.50.0 255.255.255.0 10.80.254.18 5
+route inside2 10.80.70.0 255.255.255.0 10.80.254.14
+route inside1 10.80.70.0 255.255.255.0 10.80.254.18 5
+route inside2 10.80.90.0 255.255.255.0 10.80.254.14
+route inside1 10.80.90.0 255.255.255.0 10.80.254.18 5
+route inside2 10.80.250.0 255.255.255.0 10.80.254.14
+route inside1 10.80.250.0 255.255.255.0 10.80.254.18 5
+
+route inside1 10.80.20.0 255.255.255.0 10.80.254.18
+route inside2 10.80.20.0 255.255.255.0 10.80.254.14 5
+route inside1 10.80.40.0 255.255.255.0 10.80.254.18
+route inside2 10.80.40.0 255.255.255.0 10.80.254.14 5
+route inside1 10.80.60.0 255.255.255.0 10.80.254.18
+route inside2 10.80.60.0 255.255.255.0 10.80.254.14 5
+route inside1 10.80.80.0 255.255.255.0 10.80.254.18
+route inside2 10.80.80.0 255.255.255.0 10.80.254.14 5
+route inside1 10.80.100.0 255.255.255.0 10.80.254.18
+route inside2 10.80.100.0 255.255.255.0 10.80.254.14 5
+route inside1 10.80.200.0 255.255.255.0 10.80.254.18
+route inside2 10.80.200.0 255.255.255.0 10.80.254.14 5
+
+! to DMZ network
+route dmz 10.80.210.0 255.255.255.0 10.80.254.10
+
+class-map INSPECTION
+match default-inspection-traffic
+
+policy-map GLOBAL-POLICY
+class INSPECTION
+inspect icmp
+inspect dns
+inspect http
+inspect ftp
+
+service-policy GLOBAL-POLICY interface inside1
+service-policy GLOBAL-POLICY interface inside2
+service-policy GLOBAL-POLICY interface inside3
+service-policy GLOBAL-POLICY interface dmz
+
+! IPsec VPN tunnel to ND D
+crypto ikev1 enable outside
+crypto ikev1 policy 1
+!The 1 in the above command refers to the Policy suite priority (1 highest, 65535 lowest)
+  authentication pre-share
+  encryption aes
+  hash sha
+  group 2
+  lifetime 86400
+
+tunnel-group 209.165.72.12 type ipsec-l2l
+tunnel-group 209.165.72.12 ipsec-attributes
+ ikev1 pre-shared-key Tigrou007
+ ! Note the IKEv1 keyword at the beginning of the pre-shared-key command.
+
+object network ND-DST-NET
+ subnet 10.78.0.0 255.255.0.0
+
+access-list 100 extended permit ip object INSIDE-NET1 object ND-DST-NET
+
+crypto ipsec ikev1 transform-set ND-SET esp-aes esp-sha-hmac
+
+crypto map ND-MAP 20 match address 100
+crypto map ND-MAP 20 set peer 209.165.72.22
+crypto map ND-MAP 20 set ikev1 transform-set ND-SET
+crypto map ND-MAP 20 set pfs
+crypto map ND-MAP interface outside
+
+nat (inside1,any) 1 source static INSIDE-NET1 INSIDE-NET1 destination static ND-DST-NET ND-DST-NET no-proxy-arp
+nat (inside2,any) 1 source static INSIDE-NET1 INSIDE-NET1 destination static ND-DST-NET ND-DST-NET no-proxy-arp
+nat (inside3,any) 1 source static INSIDE-NET1 INSIDE-NET1 destination static ND-DST-NET ND-DST-NET no-proxy-arp
+
+! IPsec VPN tunnel to LA D
+crypto ikev1 enable outside
+crypto ikev1 policy 1
+!The 1 in the above command refers to the Policy suite priority (1 highest, 65535 lowest)
+  authentication pre-share
+  encryption aes
+  hash sha
+  group 2
+  lifetime 86400
+
+tunnel-group 209.165.72.32 type ipsec-l2l
+tunnel-group 209.165.72.32 ipsec-attributes
+ ikev1 pre-shared-key Tigrou007
+ ! Note the IKEv1 keyword at the beginning of the pre-shared-key command.
+
+object network LA-DST-NET
+ subnet 10.76.0.0 255.255.0.0
+
+access-list 101 extended permit ip object INSIDE-NET1 object LA-DST-NET
+
+crypto ipsec ikev1 transform-set LA-SET esp-aes esp-sha-hmac
+
+crypto map LA-MAP 30 match address 101
+crypto map LA-MAP 30 set peer 209.165.72.32
+crypto map LA-MAP 30 set ikev1 transform-set LA-SET
+crypto map LA-MAP 30 set pfs
+crypto map LA-MAP interface outside
+
+nat (inside1,any) 1 source static INSIDE-NET1 INSIDE-NET1 destination static LA-DST-NET LA-DST-NET no-proxy-arp
+nat (inside2,any) 1 source static INSIDE-NET1 INSIDE-NET1 destination static LA-DST-NET LA-DST-NET no-proxy-arp
+nat (inside3,any) 1 source static INSIDE-NET1 INSIDE-NET1 destination static LA-DST-NET LA-DST-NET no-proxy-arp
+
+! since dynamic peers are not enabled, the demo requires changing the active interface to reach different sites
+! Use the following command to establish VPN between PARIS and LA
+! crypto map LA-MAP interface outside
+! Use the following command to establish VPN between PARIS and ND
+! crypto map ND-MAP interface outside

@@ -1,0 +1,81 @@
+hostname ND-ASA-G
+domain-name cisco.com
+
+interface G0/0
+nameif outside
+security-level 0
+ip address 209.165.72.11 255.255.255.0
+no shutdown
+
+interface g0/1
+nameif inside1
+security-level 100
+ip address 10.78.254.1 255.255.255.252
+no shutdown
+
+interface g0/2
+nameif inside2
+security-level 100
+ip address 10.78.254.5 255.255.255.252
+no shutdown
+
+interface g0/3
+nameif inside3
+security-level 100
+ip address 10.78.254.17 255.255.255.252
+no shutdown
+
+object network INSIDE-NET1
+subnet 10.78.0.0 255.255.0.0
+nat (inside1,outside) dynamic interface
+object network INSIDE-NET2
+subnet 10.78.0.0 255.255.0.0
+nat (inside2,outside) dynamic interface
+object network INSIDE-NET3
+subnet 10.78.0.0 255.255.0.0
+nat (inside3,outside) dynamic interface
+
+route outside 0.0.0.0 0.0.0.0 209.165.72.254
+! Backup to other EDGE router
+route inside3 0.0.0.0 0.0.0.0 10.78.254.18 5
+
+route inside1 10.78.10.0 255.255.255.0 10.78.254.2
+route inside2 10.78.10.0 255.255.255.0 10.78.254.6 5
+route inside1 10.78.30.0 255.255.255.0 10.78.254.2
+route inside2 10.78.30.0 255.255.255.0 10.78.254.6 5
+route inside1 10.78.50.0 255.255.255.0 10.78.254.2
+route inside2 10.78.50.0 255.255.255.0 10.78.254.6 5
+route inside1 10.78.70.0 255.255.255.0 10.78.254.2
+route inside2 10.78.70.0 255.255.255.0 10.78.254.6 5
+route inside1 10.78.90.0 255.255.255.0 10.78.254.2
+route inside2 10.78.90.0 255.255.255.0 10.78.254.6 5
+route inside1 10.78.250.0 255.255.255.0 10.78.254.2
+route inside2 10.78.250.0 255.255.255.0 10.78.254.6 5
+
+route inside2 10.78.20.0 255.255.255.0 10.78.254.6
+route inside1 10.78.20.0 255.255.255.0 10.78.254.2 5
+route inside2 10.78.40.0 255.255.255.0 10.78.254.6
+route inside1 10.78.40.0 255.255.255.0 10.78.254.2 5
+route inside2 10.78.60.0 255.255.255.0 10.78.254.6
+route inside1 10.78.60.0 255.255.255.0 10.78.254.2 5
+route inside2 10.78.80.0 255.255.255.0 10.78.254.6
+route inside1 10.78.80.0 255.255.255.0 10.78.254.2 5
+route inside2 10.78.100.0 255.255.255.0 10.78.254.6
+route inside1 10.78.100.0 255.255.255.0 10.78.254.2 5
+route inside2 10.78.200.0 255.255.255.0 10.78.254.6
+route inside1 10.78.200.0 255.255.255.0 10.78.254.2 5
+
+class-map INSPECTION
+match default-inspection-traffic
+
+policy-map GLOBAL-POLICY
+class INSPECTION
+inspect icmp
+inspect dns
+inspect http
+inspect ftp
+
+service-policy GLOBAL-POLICY interface inside1
+service-policy GLOBAL-POLICY interface inside2
+service-policy GLOBAL-POLICY interface inside3
+
